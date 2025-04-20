@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 
 interface Props {
   word: string;
@@ -44,6 +44,7 @@ export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft 
   };
 
   return (
+    <GestureHandlerRootView>
     <PanGestureHandler onGestureEvent={handleGesture} onEnded={handleEnd}>
       <Animated.View
         style={[
@@ -54,7 +55,9 @@ export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft 
         <Text style={styles.word}>{word}</Text>
         <Text style={styles.translation}>{translation}</Text>
       </Animated.View>
+      
     </PanGestureHandler>
+    </GestureHandlerRootView>
   );
 }
 

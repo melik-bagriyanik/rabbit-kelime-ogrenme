@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, Alert } from 'react-native';
 import WordCard from '../../components/WordCard';
