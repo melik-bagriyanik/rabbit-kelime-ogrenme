@@ -1,8 +1,19 @@
-
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import WordCard from '../../components/WordCard';
 import { useWordStore } from '../../stores/wordStore';
+import wordsData from "./words.json"
+interface Word {
+  id: number;
+  word: string;
+  translation: string;
+}
+
+const initialWords: Word[] = wordsData.map((word, index) => ({
+  id: index,
+  word: word.word,
+  translation: word.translation,
+}));
 
 export default function Index() {
   const {
@@ -13,13 +24,11 @@ export default function Index() {
   } = useWordStore();
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setAllWords([
-      { id: 1, word: 'apple', translation: 'elma' },
-      { id: 2, word: 'house', translation: 'ev' },
-      { id: 3, word: 'car', translation: 'araba' },
-    ]);
+    setAllWords(initialWords);
+    setLoading(false);
   }, []);
 
   const currentWord = allWords[currentIndex];
@@ -40,11 +49,14 @@ export default function Index() {
     if (currentIndex < allWords.length - 1) {
       setCurrentIndex(prev => prev + 1);
     } else {
-      // Tüm kelimeler bittiğinde uyarı ve yazıyı göster
       Alert.alert('Bitti!', 'Tüm kelimeleri tamamladınız.');
-      setCurrentIndex(allWords.length); // Bu da sonrasında boş bir state sağlar.
+      setCurrentIndex(allWords.length);
     }
   };
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
 
   return (
     <View style={styles.container}>

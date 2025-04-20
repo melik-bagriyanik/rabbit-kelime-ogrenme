@@ -3,7 +3,7 @@ import { create } from 'zustand';
 interface Word {
   id: number;
   word: string;
-  translation: string;
+  translation?: string;
 }
 
 interface WordState {

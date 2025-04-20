@@ -4,7 +4,7 @@ import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-
 
 interface Props {
   word: string;
-  translation: string;
+  translation?: string;
   onSwipeRight: () => void;
   onSwipeLeft: () => void;
 }
