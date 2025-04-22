@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { useThemeStore } from '../stores/themeStore';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 interface Props {
   word: string;
@@ -14,6 +16,13 @@ export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft 
   const colors = useThemeStore((state) => state.colors);
   const translateX = new Animated.Value(0);
 
+  // rotate değeri translateX'e bağlı
+  const rotate = translateX.interpolate({
+    inputRange: [-SCREEN_WIDTH, 0, SCREEN_WIDTH],
+    outputRange: ['-20deg', '0deg', '20deg'],
+    extrapolate: 'clamp',
+  });
+
   const handleGesture = Animated.event(
     [{ nativeEvent: { translationX: translateX } }],
     { useNativeDriver: true }
@@ -22,18 +31,16 @@ export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft 
   const handleEnd = (e: any) => {
     const dx = e.nativeEvent.translationX;
 
-    if (dx > 100) {
+    if (dx > 35) {
       Animated.spring(translateX, {
-        toValue: 500,
+        toValue: SCREEN_WIDTH,
         useNativeDriver: true,
       }).start(() => onSwipeRight());
-
     } else if (dx < -100) {
       Animated.spring(translateX, {
-        toValue: -500,
+        toValue: -SCREEN_WIDTH,
         useNativeDriver: true,
       }).start(() => onSwipeLeft());
-
     } else {
       Animated.spring(translateX, {
         toValue: 0,
@@ -55,7 +62,12 @@ export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft 
         <Animated.View
           style={[
             cardStyle,
-            { transform: [{ translateX }] },
+            {
+              transform: [
+                { translateX },
+                { rotate }, // Kart döndürülüyor
+              ],
+            },
           ]}
         >
           <Text style={[styles.word, { color: colors.text.primary }]}>{word}</Text>
@@ -80,7 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-   marginTop: 150,
+    marginTop: 150,
   },
   word: {
     fontSize: 28,
