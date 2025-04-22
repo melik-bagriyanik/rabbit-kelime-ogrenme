@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
+import { useThemeStore } from '../stores/themeStore';
 
 interface Props {
   word: string;
@@ -10,53 +11,57 @@ interface Props {
 }
 
 export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft }: Props) {
-  const translateX = new Animated.Value(0);  // Animasyonun yatay kayma değeri
+  const colors = useThemeStore((state) => state.colors);
+  const translateX = new Animated.Value(0);
 
   const handleGesture = Animated.event(
     [{ nativeEvent: { translationX: translateX } }],
-    { useNativeDriver: true }  // Performansı artırmak için native driver kullanıyoruz
+    { useNativeDriver: true }
   );
 
   const handleEnd = (e: any) => {
-    const dx = e.nativeEvent.translationX;  // Kaydırma mesafesi
+    const dx = e.nativeEvent.translationX;
 
-    // Sağ kaydırma
     if (dx > 100) {
       Animated.spring(translateX, {
-        toValue: 500,  // Sağ tarafa doğru kaydırıyoruz
+        toValue: 500,
         useNativeDriver: true,
-      }).start(() => onSwipeRight());  // Animasyon bittiğinde swipe sağ işlemi
+      }).start(() => onSwipeRight());
 
-    // Sol kaydırma
     } else if (dx < -100) {
       Animated.spring(translateX, {
-        toValue: -500,  // Sol tarafa doğru kaydırıyoruz
+        toValue: -500,
         useNativeDriver: true,
-      }).start(() => onSwipeLeft());  // Animasyon bittiğinde swipe sol işlemi
+      }).start(() => onSwipeLeft());
 
-    // Eğer çok kaydırılmadıysa, kartı eski yerine geri getir
     } else {
       Animated.spring(translateX, {
-        toValue: 0,  // Yatay kaymayı sıfırlıyoruz
+        toValue: 0,
         useNativeDriver: true,
       }).start();
     }
   };
 
+  const cardStyle = {
+    ...styles.card,
+    backgroundColor: colors.card,
+    shadowColor: colors.shadow.color,
+    shadowOpacity: colors.shadow.opacity,
+  };
+
   return (
     <GestureHandlerRootView>
-    <PanGestureHandler onGestureEvent={handleGesture} onEnded={handleEnd}>
-      <Animated.View
-        style={[
-          styles.card,
-          { transform: [{ translateX }] },  // Animasyona göre yatay kaydırma
-        ]}
-      >
-        <Text style={styles.word}>{word}</Text>
-        <Text style={styles.translation}>{translation}</Text>
-      </Animated.View>
-      
-    </PanGestureHandler>
+      <PanGestureHandler onGestureEvent={handleGesture} onEnded={handleEnd}>
+        <Animated.View
+          style={[
+            cardStyle,
+            { transform: [{ translateX }] },
+          ]}
+        >
+          <Text style={[styles.word, { color: colors.text.primary }]}>{word}</Text>
+          <Text style={[styles.translation, { color: colors.text.secondary }]}>{translation}</Text>
+        </Animated.View>
+      </PanGestureHandler>
     </GestureHandlerRootView>
   );
 }
@@ -65,12 +70,17 @@ const styles = StyleSheet.create({
   card: {
     width: 300,
     height: 200,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    elevation: 4,
+    borderRadius: 20,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowRadius: 8,
+    elevation: 5,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+   marginTop: 150,
   },
   word: {
     fontSize: 28,
@@ -78,7 +88,6 @@ const styles = StyleSheet.create({
   },
   translation: {
     fontSize: 20,
-    color: 'gray',
     marginTop: 10,
   },
 });

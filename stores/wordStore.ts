@@ -13,6 +13,7 @@ interface WordState {
   setAllWords: (words: Word[]) => void;
   addKnownWord: (word: Word) => void;
   addUnknownWord: (word: Word) => void;
+  removeUnknownWord: (wordId: number) => void;
   resetWords: () => void;
 }
 
@@ -28,6 +29,10 @@ export const useWordStore = create<WordState>((set) => ({
   addUnknownWord: (word) =>
     set((state) => ({
       unknownWords: [...state.unknownWords, word],
+    })),
+  removeUnknownWord: (wordId) =>
+    set((state) => ({
+      unknownWords: state.unknownWords.filter((word) => word.id !== wordId),
     })),
   resetWords: () => set({ knownWords: [], unknownWords: [] }),
 }));
