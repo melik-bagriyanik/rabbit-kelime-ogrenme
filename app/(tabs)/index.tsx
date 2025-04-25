@@ -34,8 +34,13 @@ export default function Index() {
 
   useEffect(() => {
     setAllWords(initialWords);
+  
+    // AsyncStorage'dan bilinen/bilinmeyen kelimeleri yükle
+    useWordStore.getState().loadStoredWords();
+  
     setLoading(false);
   }, []);
+  
 
   const currentWord = allWords[currentIndex];
 

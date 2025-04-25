@@ -1,51 +1,35 @@
-# Welcome to your Expo app 👋
+# 📘 Kelime Ezberleme Uygulaması
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bu uygulama, kullanıcıların İngilizce kelimeleri daha kolay öğrenmesi amacıyla geliştirilmiştir. Kelimeler kartlar şeklinde sunulur ve kullanıcılar bu kartları sağa veya sola kaydırarak, kelimeyi bilip bilmediğini belirtebilir.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Özellikler
 
-   ```bash
-   npm install
-   ```
+- 🃏 Kelime kartlarını sağa/sola kaydırarak öğrenme
+- 🌙 Karanlık ve aydınlık tema desteği
+- 📊 Bilinen ve bilinmeyen kelime takibi
+- 💾 **Kalıcı veri saklama** (AsyncStorage ile)
+- ⚡ Expo ve React Native ile hızlı geliştirme
 
-2. Start the app
+---
 
-   ```bash
-    npx expo start
-   ```
+## 💾 Kalıcı Veri Saklama
 
-In the output, you'll find options to open the app in a
+Kullanıcının bildiği ve bilmediği kelimeler `AsyncStorage` kullanılarak cihazda kalıcı olarak saklanır. Böylece uygulama kapatılsa bile veriler korunur.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+🔗 [AsyncStorage Dokümantasyonu](https://react-native-async-storage.github.io/async-storage/)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 🛠️ Teknolojiler
 
-When you're ready, run:
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [Zustand](https://github.com/pmndrs/zustand) (Global state yönetimi için)
+- [AsyncStorage](https://react-native-async-storage.github.io/async-storage/) (Kalıcı veri için)
+- [TypeScript](https://www.typescriptlang.org/) (Tip güvenliği)
+- [React Native Linear Gradient](https://github.com/react-native-linear-gradient/react-native-linear-gradient) (Gradient arkaplanlar için)
 
-```bash
-npm run reset-project
-```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-# rabbit-kelime-ogrenme
