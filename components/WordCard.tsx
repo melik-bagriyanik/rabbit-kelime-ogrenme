@@ -2,17 +2,18 @@ import React from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { useThemeStore } from '../stores/themeStore';
-
+import { Image } from 'react-native';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 interface Props {
   word: string;
   translation?: string;
+  imageUrl?: string;
   onSwipeRight: () => void;
   onSwipeLeft: () => void;
 }
 
-export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft }: Props) {
+export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft,imageUrl }: Props) {
   const colors = useThemeStore((state) => state.colors);
   const translateX = new Animated.Value(0);
 
@@ -59,6 +60,7 @@ export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft 
   return (
     <GestureHandlerRootView>
       <PanGestureHandler onGestureEvent={handleGesture} onEnded={handleEnd}>
+
         <Animated.View
           style={[
             cardStyle,
@@ -70,6 +72,13 @@ export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft 
             },
           ]}
         >
+          {imageUrl && (
+  <Image
+    source={{ uri: imageUrl }}
+    style={{ width: 100, height: 100, borderRadius: 10, marginBottom: 10 }}
+    resizeMode="cover"
+  />
+)}
           <Text style={[styles.word, { color: colors.text.primary }]}>{word}</Text>
           <Text style={[styles.translation, { color: colors.text.secondary }]}>{translation}</Text>
         </Animated.View>

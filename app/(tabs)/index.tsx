@@ -41,8 +41,31 @@ export default function Index() {
     setLoading(false);
   }, []);
   
-
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const currentWord = allWords[currentIndex];
+  useEffect(() => {
+    if (currentWord) {
+      fetchImageForWord(currentWord.word);
+    }
+  }, [currentWord]);
+  
+  const fetchImageForWord = async (query: string) => {
+    try {
+      const response = await fetch(
+        `https://pixabay.com/api/?key=49933608-7315ae5a43caa747f62db528e&q=${encodeURIComponent(query)}&image_type=photo`
+      );
+      const data = await response.json();
+      if (data.hits && data.hits.length > 0) {
+        setImageUrl(data.hits[0].webformatURL);
+      } else {
+        setImageUrl(null);
+      }
+    } catch (error) {
+      console.error('Resim alınırken hata oluştu:', error);
+      setImageUrl(null);
+    }
+  };
+
 
   const handleSwipeRight = () => {
     if (!currentWord) return;
@@ -121,6 +144,7 @@ export default function Index() {
               <WordCard
                 word={currentWord.word}
                 translation={currentWord.translation}
+                imageUrl={imageUrl ?? undefined}
                 onSwipeRight={handleSwipeRight}
                 onSwipeLeft={handleSwipeLeft}
               />
