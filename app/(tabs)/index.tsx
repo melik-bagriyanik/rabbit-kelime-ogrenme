@@ -13,8 +13,8 @@ interface Word {
   translation: string;
 }
 
-const initialWords: Word[] = wordsData.map((word, index) => ({
-  id: index,
+const initialWords: Word[] = wordsData.map((word) => ({
+  id: word.id,
   word: word.word,
   translation: word.translation,
 }));

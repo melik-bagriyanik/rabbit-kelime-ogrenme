@@ -28,6 +28,9 @@ export const useWordStore = create<WordState>((set) => ({
 
   addKnownWord: async (word) => {
     set((state) => {
+      if (state.knownWords.some(w => w.id === word.id)) {
+        return state;
+      }
       const updated = [...state.knownWords, word];
       AsyncStorage.setItem('knownWords', JSON.stringify(updated));
       return { knownWords: updated };
@@ -59,9 +62,34 @@ export const useWordStore = create<WordState>((set) => ({
     try {
       const known = await AsyncStorage.getItem('knownWords');
       const unknown = await AsyncStorage.getItem('unknownWords');
+      
+      // Tekrar eden ID'leri önlemek için Set kullanıyoruz
+      const knownWordsSet = new Set();
+      const unknownWordsSet = new Set();
+      
+      const parsedKnown = known ? JSON.parse(known) : [];
+      const parsedUnknown = unknown ? JSON.parse(unknown) : [];
+      
+      // Tekrar eden ID'leri filtrele
+      const filteredKnown = parsedKnown.filter((word: Word) => {
+        if (knownWordsSet.has(word.id)) {
+          return false;
+        }
+        knownWordsSet.add(word.id);
+        return true;
+      });
+      
+      const filteredUnknown = parsedUnknown.filter((word: Word) => {
+        if (unknownWordsSet.has(word.id)) {
+          return false;
+        }
+        unknownWordsSet.add(word.id);
+        return true;
+      });
+      
       set({
-        knownWords: known ? JSON.parse(known) : [],
-        unknownWords: unknown ? JSON.parse(unknown) : [],
+        knownWords: filteredKnown,
+        unknownWords: filteredUnknown,
       });
     } catch (e) {
       console.error("Veri yüklenirken hata oluştu:", e);
