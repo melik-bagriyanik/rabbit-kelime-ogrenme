@@ -33,12 +33,28 @@ export default function Index() {
   const [showCard, setShowCard] = useState(true);
 
   useEffect(() => {
-    setAllWords(initialWords);
-  
-    // AsyncStorage'dan bilinen/bilinmeyen kelimeleri yükle
-    useWordStore.getState().loadStoredWords();
-  
-    setLoading(false);
+    // Load stored words from AsyncStorage first
+    const loadWords = async () => {
+      await useWordStore.getState().loadStoredWords();
+      
+      // Get the current state after loading
+      const { knownWords, unknownWords } = useWordStore.getState();
+      
+      // Create a set of IDs that are already in known or unknown lists
+      const usedIds = new Set([
+        ...knownWords.map(word => word.id),
+        ...unknownWords.map(word => word.id)
+      ]);
+      
+      // Filter out words that are already in known or unknown lists
+      const filteredWords = initialWords.filter(word => !usedIds.has(word.id));
+      
+      // Set the filtered words as allWords
+      setAllWords(filteredWords);
+      setLoading(false);
+    };
+    
+    loadWords();
   }, []);
   
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -52,12 +68,14 @@ export default function Index() {
   const fetchImageForWord = async (query: string) => {
     try {
       const response = await fetch(
-        `https://pixabay.com/api/?key=49933608-7315ae5a43caa747f62db528e&q=${encodeURIComponent(query)}&image_type=photo`
+        `https://pixabay.com/api/?key=49933608-7315ae5a43caa747f62db528e&q=${encodeURIComponent(query)}&image_type=photo&per_page=20`
       );
       const data = await response.json();
       if (data.hits && data.hits.length > 0) {
+        // Get a random image from the results
+        const randomIndex = Math.floor(Math.random() * data.hits.length);
         // HTTP URL'yi HTTPS'e çevir
-        const imageUrl = data.hits[0].webformatURL.replace('http://', 'https://');
+        const imageUrl = data.hits[randomIndex].webformatURL.replace('http://', 'https://');
         setImageUrl(imageUrl);
       } else {
         setImageUrl(null);
