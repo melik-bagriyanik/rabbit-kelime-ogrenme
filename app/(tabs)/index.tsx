@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, ActivityIndicator, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Alert, ActivityIndicator, StatusBar, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import WordCard from '../../components/WordCard';
 import { useWordStore } from '../../stores/wordStore';
 import { useThemeStore } from '../../stores/themeStore';
 import wordsData from "./words.json"
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 interface Word {
   id: number;
@@ -20,6 +21,7 @@ const initialWords: Word[] = wordsData.map((word) => ({
 }));
 
 export default function Index() {
+  const router = useRouter();
   const {
     allWords,
     setAllWords,
@@ -56,7 +58,7 @@ export default function Index() {
     
     loadWords();
   }, []);
-  
+
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const currentWord = allWords[currentIndex];
   useEffect(() => {
@@ -72,9 +74,7 @@ export default function Index() {
       );
       const data = await response.json();
       if (data.hits && data.hits.length > 0) {
-        // Get a random image from the results
         const randomIndex = Math.floor(Math.random() * data.hits.length);
-        // HTTP URL'yi HTTPS'e çevir
         const imageUrl = data.hits[randomIndex].webformatURL.replace('http://', 'https://');
         setImageUrl(imageUrl);
       } else {
@@ -85,7 +85,6 @@ export default function Index() {
       setImageUrl(null);
     }
   };
-
 
   const handleSwipeRight = () => {
     if (!currentWord) return;
@@ -158,7 +157,58 @@ export default function Index() {
           </View>
         </View>
 
-        <View style={styles.cardContainer}>
+        <View style={styles.gridContainer}>
+          <View style={styles.row}>
+            <TouchableOpacity
+              style={[styles.levelButton, { backgroundColor: `${colors.primary}30` }]}
+              onPress={() => router.push(`/word-level?level=yds`)}
+            >
+              <View style={styles.levelButtonContent}>
+                <Ionicons name="school" size={32} color={colors.text.white} />
+                <Text style={[styles.levelButtonText, { color: colors.text.white }]}>
+                  YDS
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.levelButton, { backgroundColor: `${colors.primary}30` }]}
+              onPress={() => router.push(`/word-level?level=a1`)}
+            >
+              <View style={styles.levelButtonContent}>
+                <Ionicons name="book" size={32} color={colors.text.white} />
+                <Text style={[styles.levelButtonText, { color: colors.text.white }]}>
+                  A1
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity
+              style={[styles.levelButton, { backgroundColor: `${colors.primary}30` }]}
+              onPress={() => router.push(`/word-level?level=a2`)}
+            >
+              <View style={styles.levelButtonContent}>
+                <Ionicons name="library" size={32} color={colors.text.white} />
+                <Text style={[styles.levelButtonText, { color: colors.text.white }]}>
+                  A2
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.levelButton, { backgroundColor: `${colors.primary}30` }]}
+              onPress={() => router.push(`/word-level?level=b1`)}
+            >
+              <View style={styles.levelButtonContent}>
+                <Ionicons name="library-outline" size={32} color={colors.text.white} />
+                <Text style={[styles.levelButtonText, { color: colors.text.white }]}>
+                  B1
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* <View style={styles.cardContainer}>
           {currentIndex < allWords.length ? (
             showCard ? (
               <>
@@ -188,7 +238,7 @@ export default function Index() {
               </Text>
             </View>
           )}
-        </View>
+        </View> */}
       </View>
     </LinearGradient>
   );
@@ -202,7 +252,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     paddingTop: 60,
-
   },
   header: {
     flexDirection: 'row',
@@ -227,6 +276,39 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  gridContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 15,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 15,
+  },
+  levelButton: {
+    width: (Dimensions.get('window').width - 60) / 2,
+    height: (Dimensions.get('window').width - 60) / 2,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  levelButtonContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  levelButtonText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 10,
   },
   cardContainer: {
     flex: 1,
