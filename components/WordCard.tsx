@@ -63,8 +63,8 @@ export default function WordCard({ word, translation, onSwipeRight, onSwipeLeft,
   };
 
   return (
-    <GestureHandlerRootView>
-      <PanGestureHandler onGestureEvent={handleGesture} onEnded={handleEnd}>
+    <GestureHandlerRootView style={{ height: 'auto' }}>
+      <PanGestureHandler  onGestureEvent={handleGesture} onEnded={handleEnd}>
         <Animated.View
           style={[
             cardStyle,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     paddingBottom: 20,
     alignItems: 'center',
-    marginTop: 150,
+  
     overflow: 'hidden', // Bu çok önemli, yoksa image taşabilir
   },
   imageContainer: {

@@ -143,13 +143,25 @@ export default function Index() {
         <View style={styles.cardContainer}>
           {currentIndex < allWords.length ? (
             showCard ? (
-              <WordCard
-                word={currentWord.word}
-                translation={currentWord.translation}
-                imageUrl={imageUrl ?? undefined}
-                onSwipeRight={handleSwipeRight}
-                onSwipeLeft={handleSwipeLeft}
-              />
+              <>
+                <WordCard
+                  word={currentWord.word}
+                  translation={currentWord.translation}
+                  imageUrl={imageUrl ?? undefined}
+                  onSwipeRight={handleSwipeRight}
+                  onSwipeLeft={handleSwipeLeft}
+                />
+                <View style={styles.iconContainer}>
+                  <View style={[styles.iconWrapper, { backgroundColor: `${colors.danger}20` }]}>
+                    <Ionicons name="close-circle" size={24} color={colors.text.white} />
+                    <Text style={[styles.iconText, { color: colors.text.white }]}>Bilmiyorum</Text>
+                  </View>
+                  <View style={[styles.iconWrapper, { backgroundColor: `${colors.primary}20` }]}>
+                    <Ionicons name="checkmark-circle" size={24} color={colors.text.white} />
+                    <Text style={[styles.iconText, { color: colors.text.white }]}>Biliyorum</Text>
+                  </View>
+                </View>
+              </>
             ) : null
           ) : (
             <View style={styles.completedContainer}>
@@ -212,5 +224,23 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  iconWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 20,
+  },
+  iconText: {
+    marginLeft: 8,
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
