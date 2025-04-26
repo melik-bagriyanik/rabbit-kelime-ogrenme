@@ -56,7 +56,9 @@ export default function Index() {
       );
       const data = await response.json();
       if (data.hits && data.hits.length > 0) {
-        setImageUrl(data.hits[0].webformatURL);
+        // HTTP URL'yi HTTPS'e çevir
+        const imageUrl = data.hits[0].webformatURL.replace('http://', 'https://');
+        setImageUrl(imageUrl);
       } else {
         setImageUrl(null);
       }
