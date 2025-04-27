@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useThemeStore } from '../../stores/themeStore';
+import { useThemeStore } from '@/stores/themeStore';
 import { Ionicons } from '@expo/vector-icons';
-import WordCard from '../../components/WordCard';
-import { useWordStore } from '../../stores/wordStore';
-import wordsData from "./words.json";
+import WordCard from '../components/WordCard';
+import { useWordStore } from '@/stores/wordStore';
+import wordsData from "@/app/(tabs)/words.json";
 
 interface Word {
   id: number;

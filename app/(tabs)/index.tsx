@@ -161,7 +161,10 @@ export default function Index() {
           <View style={styles.row}>
             <TouchableOpacity
               style={[styles.levelButton, { backgroundColor: `${colors.primary}30` }]}
-              onPress={() => router.push(`/word-level?level=yds`)}
+              onPress={() => router.push({
+                pathname: "/word-level",
+                params: { level: "yds" }
+              })}
             >
               <View style={styles.levelButtonContent}>
                 <Ionicons name="school" size={32} color={colors.text.white} />
@@ -172,7 +175,10 @@ export default function Index() {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.levelButton, { backgroundColor: `${colors.primary}30` }]}
-              onPress={() => router.push(`/word-level?level=a1`)}
+              onPress={() => router.push({
+                pathname: "/word-level",
+                params: { level: "a1" }
+              })}
             >
               <View style={styles.levelButtonContent}>
                 <Ionicons name="book" size={32} color={colors.text.white} />
@@ -185,7 +191,10 @@ export default function Index() {
           <View style={styles.row}>
             <TouchableOpacity
               style={[styles.levelButton, { backgroundColor: `${colors.primary}30` }]}
-              onPress={() => router.push(`/word-level?level=a2`)}
+              onPress={() => router.push({
+                pathname: "/word-level",
+                params: { level: "a2" }
+              })}
             >
               <View style={styles.levelButtonContent}>
                 <Ionicons name="library" size={32} color={colors.text.white} />
@@ -196,7 +205,10 @@ export default function Index() {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.levelButton, { backgroundColor: `${colors.primary}30` }]}
-              onPress={() => router.push(`/word-level?level=b1`)}
+              onPress={() => router.push({
+                pathname: "/word-level",
+                params: { level: "b1" }
+              })}
             >
               <View style={styles.levelButtonContent}>
                 <Ionicons name="library-outline" size={32} color={colors.text.white} />
