@@ -6,7 +6,7 @@ import { useThemeStore } from '@/stores/themeStore';
 import { Ionicons } from '@expo/vector-icons';
 import WordCard from '../components/WordCard';
 import { useWordStore } from '@/stores/wordStore';
-import wordsData from "@/app/(tabs)/words.json";
+import wordsData from "@/app/(tabs)/yds.json";
 
 interface Word {
   id: number;

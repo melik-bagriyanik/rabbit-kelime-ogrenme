@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import wordsData from '../app/(tabs)/words.json';
+import wordsData from '../app/(tabs)/yds.json';
 
 interface Word {
   id: number;

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Alert, ActivityIndicator, StatusBar, TouchableO
 import WordCard from '../../components/WordCard';
 import { useWordStore } from '../../stores/wordStore';
 import { useThemeStore } from '../../stores/themeStore';
-import wordsData from "./words.json"
+import ydsData from "./yds.json"
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -14,7 +14,7 @@ interface Word {
   translation: string;
 }
 
-const initialWords: Word[] = wordsData.map((word) => ({
+const initialWords: Word[] = ydsData.map((word) => ({
   id: word.id,
   word: word.word,
   translation: word.translation,

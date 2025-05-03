@@ -6,7 +6,10 @@ import { useThemeStore } from '../stores/themeStore';
 import { Ionicons } from '@expo/vector-icons';
 import WordCard from '../components/WordCard';
 import { useWordStore } from '../stores/wordStore';
-import wordsData from "../app/(tabs)/words.json";
+import a1Words from "../app/(tabs)/a1.json";
+import a2Words from "../app/(tabs)/a2.json";
+import b1Words from "../app/(tabs)/b1.json";
+import ydsWords from "../app/(tabs)/yds.json";
 
 interface Word {
   id: number;
@@ -14,17 +17,11 @@ interface Word {
   translation: string;
 }
 
-const initialWords: Word[] = wordsData.map((word: any) => ({
-  id: word.id,
-  word: word.word,
-  translation: word.translation,
-}));
-
 const wordLevels = {
-  yds: initialWords,
-  a1: initialWords.slice(0, 20),
-  a2: initialWords.slice(20, 40),
-  b1: initialWords.slice(40, 60),
+  yds: ydsWords,
+  a1: a1Words,
+  a2: a2Words,
+  b1: b1Words,
 };
 
 export default function WordLevel() {
