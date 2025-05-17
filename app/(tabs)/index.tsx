@@ -142,11 +142,11 @@ export default function Index() {
       <StatusBar barStyle={mode === 'dark' ? 'light-content' : 'dark-content'} />
       <View style={styles.contentContainer}>
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.white }]}>Kelime Ezberleme</Text>
+          {/* <Text style={[styles.title, { color: colors.text.white }]}>Kelime Ezberleme</Text> */}
           <View style={styles.headerRight}>
-            <Text style={[styles.progress, { color: colors.text.white }]}>
+            {/* <Text style={[styles.progress, { color: colors.text.white }]}>
               {Math.min(currentIndex + 1, allWords.length)} / {allWords.length}
-            </Text>
+            </Text> */}
             <TouchableOpacity onPress={toggleTheme} style={styles.themeButton}>
               <Ionicons 
                 name={mode === 'dark' ? 'sunny' : 'moon'} 
