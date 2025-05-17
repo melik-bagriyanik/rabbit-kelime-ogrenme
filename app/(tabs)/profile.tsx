@@ -60,6 +60,14 @@ export default function Profile() {
               color={colors.text.white} 
             />
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.knownWordsButton, { backgroundColor: colors.danger, marginTop: 16 }]}
+            onPress={() => router.push('/repeat-test')}
+          >
+            <Text style={[styles.knownWordsButtonText, { color: colors.text.white }]}>Tekrar Testi</Text>
+            <Ionicons name="game-controller" size={24} color={colors.text.white} />
+          </TouchableOpacity>
         </View>
       </View>
     </LinearGradient>
