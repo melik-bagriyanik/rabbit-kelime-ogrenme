@@ -96,32 +96,34 @@ export default function WordLevel() {
   const handleSwipeLeft = async () => {
     if (!currentWord) return;
     addUnknownWord(currentWord);
-    
+
     // Remove the word from its original list
     const currentLevel = level as keyof typeof wordLevels;
     const updatedWords = wordLevels[currentLevel].filter(
       word => word.id !== currentWord.id
     );
-    
+
     const newWordLevels = {
       ...wordLevels,
       [currentLevel]: updatedWords
     };
-    
+
     // Save to AsyncStorage
     try {
       await AsyncStorage.setItem('wordLevels', JSON.stringify(newWordLevels));
       setWordLevels(newWordLevels);
+
+      // currentIndex'i güncelle: Eğer son kelimeyse bir önceki indexe çek
+      setCurrentIndex(prev =>
+        prev >= updatedWords.length ? Math.max(0, updatedWords.length - 1) : prev
+      );
     } catch (error) {
       console.error('Error saving word lists:', error);
     }
 
     setShowCard(false);
     setTimeout(() => {
-      goToNextWord();
-      if (currentIndex < wordLevels[level as keyof typeof wordLevels].length - 1) {
-        setShowCard(true);
-      }
+      setShowCard(true);
     }, 300);
   };
 
