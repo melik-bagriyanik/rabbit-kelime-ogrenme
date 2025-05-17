@@ -33,6 +33,7 @@ export default function WordLevel() {
   const [showCard, setShowCard] = useState(true);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [wordLevels, setWordLevels] = useState(initialWordLevels);
+  const [loading, setLoading] = useState(false);
 
   const {
     addKnownWord,
@@ -167,18 +168,18 @@ export default function WordLevel() {
             showCard ? (
               <>
                 <WordCard
-                  word={currentWord.word}
-                  translation={currentWord.translation}
+                  word={currentWord?.word}
+                  translation={currentWord?.translation}
                   imageUrl={imageUrl ?? undefined}
                   onSwipeRight={handleSwipeRight}
                   onSwipeLeft={handleSwipeLeft}
                 />
                 <View style={styles.iconContainer}>
-                  <View style={[styles.iconWrapper, { backgroundColor: `${colors.danger}20` }]}>
+                  <View style={[styles.iconWrapper, { backgroundColor: `${colors.danger}20` }]}> 
                     <Ionicons name="close-circle" size={24} color={colors.text.white} />
                     <Text style={[styles.iconText, { color: colors.text.white }]}>Bilmiyorum</Text>
                   </View>
-                  <View style={[styles.iconWrapper, { backgroundColor: `${colors.primary}20` }]}>
+                  <View style={[styles.iconWrapper, { backgroundColor: `${colors.primary}20` }]}> 
                     <Ionicons name="checkmark-circle" size={24} color={colors.text.white} />
                     <Text style={[styles.iconText, { color: colors.text.white }]}>Biliyorum</Text>
                   </View>
@@ -187,7 +188,7 @@ export default function WordLevel() {
             ) : null
           ) : (
             <View style={styles.completedContainer}>
-              <Text style={[styles.completedText, { color: colors.text.white }]}>
+              <Text style={[styles.completedText, { color: colors.text.white }]}> 
                 🎉 Tebrikler, kelimeleri bitirdiniz!
               </Text>
             </View>
