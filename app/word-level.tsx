@@ -6,6 +6,7 @@ import { useThemeStore } from '../stores/themeStore';
 import { Ionicons } from '@expo/vector-icons';
 import WordCard from '../components/WordCard';
 import { useWordStore } from '../stores/wordStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import a1Words from "../app/(tabs)/a1.json";
 import a2Words from "../app/(tabs)/a2.json";
 import b1Words from "../app/(tabs)/b1.json";
@@ -17,7 +18,7 @@ interface Word {
   translation: string;
 }
 
-const wordLevels = {
+const initialWordLevels = {
   yds: ydsWords,
   a1: a1Words,
   a2: a2Words,
@@ -31,11 +32,27 @@ export default function WordLevel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showCard, setShowCard] = useState(true);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [wordLevels, setWordLevels] = useState(initialWordLevels);
 
   const {
     addKnownWord,
     addUnknownWord,
   } = useWordStore();
+
+  // Load saved word lists when component mounts
+  useEffect(() => {
+    const loadWordLists = async () => {
+      try {
+        const savedLevels = await AsyncStorage.getItem('wordLevels');
+        if (savedLevels) {
+          setWordLevels(JSON.parse(savedLevels));
+        }
+      } catch (error) {
+        console.error('Error loading word lists:', error);
+      }
+    };
+    loadWordLists();
+  }, []);
 
   const currentWord = wordLevels[level as keyof typeof wordLevels]?.[currentIndex];
 
@@ -76,9 +93,29 @@ export default function WordLevel() {
     }, 300);
   };
 
-  const handleSwipeLeft = () => {
+  const handleSwipeLeft = async () => {
     if (!currentWord) return;
     addUnknownWord(currentWord);
+    
+    // Remove the word from its original list
+    const currentLevel = level as keyof typeof wordLevels;
+    const updatedWords = wordLevels[currentLevel].filter(
+      word => word.id !== currentWord.id
+    );
+    
+    const newWordLevels = {
+      ...wordLevels,
+      [currentLevel]: updatedWords
+    };
+    
+    // Save to AsyncStorage
+    try {
+      await AsyncStorage.setItem('wordLevels', JSON.stringify(newWordLevels));
+      setWordLevels(newWordLevels);
+    } catch (error) {
+      console.error('Error saving word lists:', error);
+    }
+
     setShowCard(false);
     setTimeout(() => {
       goToNextWord();
