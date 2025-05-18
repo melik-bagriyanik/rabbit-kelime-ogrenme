@@ -4,6 +4,7 @@ import { useThemeStore } from '../stores/themeStore';
 import { useWordStore } from '../stores/wordStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Stack, useRouter } from 'expo-router';
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
@@ -12,6 +13,7 @@ function getRandomInt(max: number) {
 export default function RepeatTest() {
   const { colors, mode } = useThemeStore();
   const { unknownWords } = useWordStore();
+  const router = useRouter();
   const [score, setScore] = useState(0);
   const [question, setQuestion] = useState<any>(null);
   const [options, setOptions] = useState<any[]>([]);
@@ -65,8 +67,16 @@ export default function RepeatTest() {
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
     >
+       <Stack.Screen 
+              options={{ 
+                headerShown: false 
+              }} 
+            />
       <StatusBar barStyle={mode === 'dark' ? 'light-content' : 'dark-content'} />
       <View style={styles.contentContainer}>
+        <TouchableOpacity onPress={() => router.back()} style={{ alignSelf: 'flex-start', marginBottom: 20 }}>
+          <Ionicons name="arrow-back" size={28} color={colors.text.white} />
+        </TouchableOpacity>
         <Text style={[styles.score, { color: colors.text.white }]}>Puan: {score}</Text>
         {question && (
           <>
